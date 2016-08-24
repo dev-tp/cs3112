@@ -1,18 +1,3 @@
-# def prime_factors(n):
-#     i = 2
-#     factors = []
-#     while i * i <= n:
-#         if n % i:
-#             i += 1
-#         else:
-#             n //= i
-#             factors.append(i)
-#     if n > 1:
-#         factors.append(n)
-#     return factors
-
-# print prime_factors(35)
-
 def prime_generator():
     d = {}
     q = 2
@@ -35,8 +20,6 @@ def list_a_number_of_primes(n):
 
 def main():
     print "Method one:"
-    # print "if n = 3: " + str(list_a_number_of_primes(3))
-    # print "if n = 7: " + str(list_a_number_of_primes(7))
     print "if n = 25: " + str(list_a_number_of_primes(25))
 
 
