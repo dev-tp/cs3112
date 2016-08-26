@@ -3,7 +3,6 @@
 
 
 from math import sqrt
-import sys
 
 
 def question_one(n):  # Sieve
