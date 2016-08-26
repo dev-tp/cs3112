@@ -7,11 +7,9 @@ import sys
 
 
 def question_one(n):  # Sieve
-    d = {}
-    q = 2
+    d, result = {}, []
+    i, q = 0, 2
 
-    i = 0
-    result = []
     while i < n:
         if q not in d:
             result.append(q)
@@ -47,34 +45,25 @@ def is_prime(n):  # Trial Division
 
 
 def question_three(n):
+    factors = {}
     i = 2
-    factors = []
 
     while i * i <= n:
         if n % i != 0:
             i += 1
         else:
             n /= i
-            factors.append(i)
+            factors[i] = 1 if i not in factors else factors[i] + 1
 
     if n > 1:
-        factors.append(n)
-
-    factor_count = {}
-    for i in factors:
-        if i not in factor_count:
-            factor_count[i] = 1
-        else:
-            factor_count[i] += 1
-    del factors
+        factors[n] = 1 if n not in factors else factors[n] + 1
 
     output = ""
-    for k, v in factor_count.items():
-        if (k, v) != factor_count.items()[-1]:
+    for k, v in factors.items():
+        if (k, v) != factors.items()[-1]:
             output = output + "%d^%d * " % (k, v)
         else:
             output = output + "%d^%d" % (k, v)
-    del factor_count
 
     return output
 
