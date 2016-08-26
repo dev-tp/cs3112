@@ -14,15 +14,15 @@ def question_one(n):  # Sieve
     result = []
     while i < n:
         if q not in d:
-            # print "if true, d = " + str(d)
             result.append(q)
             d[q * q] = [q]
             i += 1
         else:
-            # print "else case: q = " + str(q)
             for p in d[q]:
-                # print "d[q]: " + str(d[q]) + ", p + q: " + str(p + q)
-                d.setdefault(p + q, []).append(p)
+                if p + q in d:
+                    d[p + q].append(p)
+                else:
+                    d[p + q] = [p]
             del d[q]
         q += 1
 
