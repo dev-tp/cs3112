@@ -23,43 +23,33 @@ def insertion_sort(a):
             j -= 1
 
 
-# TODO: Optimise function to remove elements from dictionary. Time complexity is O(n^3)...
-def free_tree_to_rooted_tree(free_tree):
-    nodes = [node for level in free_tree for node in level if node != '_' and node != ' ']
+def free_tree_to_rooted_tree(tree):
+    nodes = [(tree[x][y], (x, y)) for y in range(len(tree[0])) for x in
+             range(len(tree)) if tree[x][y] != '_' and tree[x][y] != ' ']
     number_of_vertices = len(nodes)
 
-    tree = {}
+    adjacency_list = {}
     for head in nodes:
-        head_location = get_node_location_in_tree(head, free_tree)
-        tree[head] = get_node_neighbours(head_location, free_tree)
+        adjacency_list[head[0]] = get_node_neighbours(head[1], tree)
 
-    connected_nodes = [tree.keys()[0]]
+    connected_nodes = [adjacency_list.keys()[0]]
     root = connected_nodes[0]
-    for node in tree[root]:
+    for node in adjacency_list[root]:
         connected_nodes.append(node)
 
     print root
-    print ' '.join(tree[root])
+    print ' '.join(adjacency_list[root])
 
-    previous_level = tree[root]
-    # Two steps were deducted hence the root node and its children have already been displayed
+    previous_level = adjacency_list[root]
     for _ in range(number_of_vertices / 2 - 2):
         current_level = []
-        for node_name in previous_level:
-            for node in tree[node_name]:
+        for head in previous_level:
+            for node in adjacency_list[head]:
                 if node not in current_level and node not in connected_nodes:
                     current_level.append(node)
                     connected_nodes.append(node)
         previous_level = current_level
         print ' '.join(current_level)
-
-
-def get_node_location_in_tree(node, tree):
-    for x in range(len(tree)):
-        for y in range(len(tree[x])):
-            if tree[x][y] == node:
-                return (x, y)
-    return (0, 0)
 
 
 def get_node_neighbours(node_location, tree):
