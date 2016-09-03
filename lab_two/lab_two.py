@@ -24,17 +24,18 @@ def insertion_sort(a):
             j -= 1
 
 
-def free_tree_to_rooted_tree(free_tree):
-    nodes = [node for level in free_tree for node in level if node != '_' and node != ' ']
+def free_tree_to_rooted_tree(tree):
+    nodes = [(tree[x][y], (x, y)) for y in range(len(tree[0])) for x in
+             range(len(tree)) if tree[x][y] != '_' and tree[x][y] != ' ']
 
-    tree = {}
+    adjacency_list = {}
     for head in nodes:
-        head_location = get_node_location_in_tree(head, free_tree)
-        tree[head] = get_node_neighbours(head_location, free_tree)
+        adjacency_list[head[0]] = get_node_neighbours(head[1], tree)
+    del head, nodes, x, y
 
-    root, child_nodes = tree.popitem()
+    root, child_nodes = adjacency_list.popitem()
     print root
-    print_rooted_tree(child_nodes, tree, 1, {})
+    print_rooted_tree(child_nodes, adjacency_list, 1, {})
 
 
 def print_rooted_tree(nodes, adjacency_list, level, tree):
@@ -52,14 +53,6 @@ def print_rooted_tree(nodes, adjacency_list, level, tree):
         for node in value:
             sys.stdout.write("%s " % node)
         print
-
-
-def get_node_location_in_tree(node, tree):
-    for y in range(len(tree[0])):
-        for x in range(len(tree)):
-            if tree[x][y] == node:
-                return (x, y)
-    return (0, 0)
 
 
 def get_node_neighbours(node_location, tree):
