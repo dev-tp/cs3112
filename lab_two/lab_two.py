@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 
-from random import shuffle
+import random
+import sys
 
 
 def selection_sort(a):
@@ -23,40 +24,39 @@ def insertion_sort(a):
             j -= 1
 
 
-# TODO: Optimise function to remove elements from dictionary. Time complexity is O(n^3)...
 def free_tree_to_rooted_tree(free_tree):
     nodes = [node for level in free_tree for node in level if node != '_' and node != ' ']
-    number_of_vertices = len(nodes)
 
     tree = {}
     for head in nodes:
         head_location = get_node_location_in_tree(head, free_tree)
         tree[head] = get_node_neighbours(head_location, free_tree)
 
-    connected_nodes = [tree.keys()[0]]
-    root = connected_nodes[0]
-    for node in tree[root]:
-        connected_nodes.append(node)
-
+    root, child_nodes = tree.popitem()
     print root
-    print ' '.join(tree[root])
+    print_rooted_tree(child_nodes, tree, 1, {})
 
-    previous_level = tree[root]
-    # Two steps were deducted hence the root node and its children have already been displayed
-    for _ in range(number_of_vertices / 2 - 2):
-        current_level = []
-        for node_name in previous_level:
-            for node in tree[node_name]:
-                if node not in current_level and node not in connected_nodes:
-                    current_level.append(node)
-                    connected_nodes.append(node)
-        previous_level = current_level
-        print ' '.join(current_level)
+
+def print_rooted_tree(nodes, adjacency_list, level, tree):
+    level += 1
+    for node in nodes:
+        if node in adjacency_list:
+            tree.setdefault(level, []).append(node)
+            nodes = adjacency_list[node]
+            del adjacency_list[node]
+            print_rooted_tree(nodes, adjacency_list, level, tree)
+        else:
+            return
+
+    for _, value in tree.items():
+        for node in value:
+            sys.stdout.write("%s " % node)
+        print
 
 
 def get_node_location_in_tree(node, tree):
-    for x in range(len(tree)):
-        for y in range(len(tree[x])):
+    for y in range(len(tree[0])):
+        for x in range(len(tree)):
             if tree[x][y] == node:
                 return (x, y)
     return (0, 0)
@@ -92,12 +92,12 @@ def get_node_neighbours(node_location, tree):
 def main():
     a = [2 ** i for i in range(1, 12)]
 
-    shuffle(a)
+    random.shuffle(a)
     print a
     selection_sort(a)
     print str(a) + "; after selection sort\n"
 
-    shuffle(a)
+    random.shuffle(a)
     print a
     insertion_sort(a)
     print str(a) + "; after insertion sort\n"
