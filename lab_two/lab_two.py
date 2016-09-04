@@ -41,15 +41,15 @@ def free_tree_to_rooted_tree(tree):
 def print_rooted_tree(nodes, adjacency_list, level, tree):
     level += 1
     for node in nodes:
-        if node in adjacency_list:
-            tree.setdefault(level, []).append(node)
-            nodes = adjacency_list[node]
-            del adjacency_list[node]
-            print_rooted_tree(nodes, adjacency_list, level, tree)
-        else:
+        if node not in adjacency_list:
             return
 
-    for _, value in tree.items():
+        tree.setdefault(level, []).append(node)
+        nodes = adjacency_list[node]
+        del adjacency_list[node]
+        print_rooted_tree(nodes, adjacency_list, level, tree)
+
+    for value in tree.values():
         for node in value:
             sys.stdout.write("%s " % node)
         print
