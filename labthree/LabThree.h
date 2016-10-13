@@ -1,6 +1,3 @@
-#ifndef labthree_h
-#define labthree_h
-
 #import <Foundation/Foundation.h>
 
 #define min(a, b) (a < b ? a : b)
@@ -13,5 +10,3 @@ double power(double base, long exponent);
 + (int)binarySearchList:(NSMutableArray *)list toFindElement:(id)element;
 
 @end
-
-#endif
