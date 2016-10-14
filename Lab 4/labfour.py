@@ -15,16 +15,6 @@ def bruteforce_maximum_subarray(array):
     return maximum
 
 
-def dynamic_programming_maximum_subarray(array):
-    maximum_ending_here = maximum_thus_far = array[0]
-
-    for n in array[1:]:
-        maximum_ending_here = max(n, maximum_ending_here + n)
-        maximum_thus_far = max(maximum_thus_far, maximum_ending_here)
-
-    return maximum_thus_far
-
-
 def divide_and_conquer_maximum_subarray(array, low, high):
     if low == high:
         return array[low]
