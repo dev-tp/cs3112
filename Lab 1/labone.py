@@ -1,7 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-
 from math import sqrt
 
 
@@ -16,10 +15,7 @@ def question_one(n):  # Sieve
             i += 1
         else:
             for p in d[q]:
-                if p + q in d:
-                    d[p + q].append(p)
-                else:
-                    d[p + q] = [p]
+                d.setdefault(p + q, []).append(p)
             del d[q]
         q += 1
 
